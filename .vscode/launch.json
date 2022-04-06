@@ -1,0 +1,249 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'cpal'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=cpal"
+                ],
+                "filter": {
+                    "name": "cpal",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug example 'android'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--example=android",
+                    "--package=cpal"
+                ],
+                "filter": {
+                    "name": "android",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in example 'android'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--example=android",
+                    "--package=cpal"
+                ],
+                "filter": {
+                    "name": "android",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug example 'beep'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--example=beep",
+                    "--package=cpal"
+                ],
+                "filter": {
+                    "name": "beep",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in example 'beep'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--example=beep",
+                    "--package=cpal"
+                ],
+                "filter": {
+                    "name": "beep",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug example 'enumerate'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--example=enumerate",
+                    "--package=cpal"
+                ],
+                "filter": {
+                    "name": "enumerate",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in example 'enumerate'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--example=enumerate",
+                    "--package=cpal"
+                ],
+                "filter": {
+                    "name": "enumerate",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug example 'feedback'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--example=feedback",
+                    "--package=cpal"
+                ],
+                "filter": {
+                    "name": "feedback",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in example 'feedback'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--example=feedback",
+                    "--package=cpal"
+                ],
+                "filter": {
+                    "name": "feedback",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug example 'record_wav'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--example=record_wav",
+                    "--package=cpal"
+                ],
+                "filter": {
+                    "name": "record_wav",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in example 'record_wav'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--example=record_wav",
+                    "--package=cpal"
+                ],
+                "filter": {
+                    "name": "record_wav",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug example 'synth_tones'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--example=synth_tones",
+                    "--package=cpal"
+                ],
+                "filter": {
+                    "name": "synth_tones",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in example 'synth_tones'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--example=synth_tones",
+                    "--package=cpal"
+                ],
+                "filter": {
+                    "name": "synth_tones",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

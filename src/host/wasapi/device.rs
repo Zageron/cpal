@@ -28,6 +28,10 @@ use super::winapi::shared::winerror;
 use super::winapi::shared::wtypes;
 use super::winapi::Interface;
 
+use winapi::shared::wtypesbase::CLSCTX_INPROC_SERVER;
+use winapi::um::combaseapi::CoCreateInstance;
+use winapi::um::mmdeviceapi::IMMDeviceEnumerator;
+
 // https://msdn.microsoft.com/en-us/library/cc230355.aspx
 use super::winapi::um::audioclient::{
     self, IAudioClient, IID_IAudioClient, AUDCLNT_E_DEVICE_INVALIDATED,
@@ -35,13 +39,11 @@ use super::winapi::um::audioclient::{
 use super::winapi::um::audiosessiontypes::{
     AUDCLNT_SHAREMODE_SHARED, AUDCLNT_STREAMFLAGS_EVENTCALLBACK, AUDCLNT_STREAMFLAGS_LOOPBACK,
 };
-use super::winapi::um::combaseapi::{
-    CoCreateInstance, CoTaskMemFree, PropVariantClear, CLSCTX_ALL,
-};
+use super::winapi::um::combaseapi::{CoTaskMemFree, PropVariantClear, CLSCTX_ALL};
 use super::winapi::um::coml2api;
 use super::winapi::um::mmdeviceapi::{
     eAll, eCapture, eConsole, eRender, CLSID_MMDeviceEnumerator, EDataFlow, IMMDevice,
-    IMMDeviceCollection, IMMDeviceEnumerator, IMMEndpoint, DEVICE_STATE_ACTIVE,
+    IMMDeviceCollection, IMMEndpoint, DEVICE_STATE_ACTIVE,
 };
 use super::winapi::um::winnt::{LPWSTR, WCHAR};
 
@@ -428,6 +430,59 @@ impl Device {
         Ok(client)
     }
 
+    fn supported_formats_ks(&self) -> Result<SupportedInputConfigs, SupportedStreamConfigsError> {
+        use windows::Win32::Media::Audio::HWAVEOUT;
+        use windows::Win32::Media::Multimedia::DRV_QUERYFUNCTIONINSTANCEIDSIZE;
+        use windows::Win32::{
+            Media::Audio::{
+                eMultimedia, eRender, waveOutGetNumDevs, waveOutMessage, IMMDeviceEnumerator,
+                MMDeviceEnumerator,
+            },
+            System::Com::CoCreateInstance,
+        };
+
+        let enumerator: IMMDeviceEnumerator = unsafe {
+            CoCreateInstance(
+                &MMDeviceEnumerator,
+                None,
+                windows::Win32::System::Com::CLSCTX(CLSCTX_INPROC_SERVER),
+            )
+            .unwrap()
+        };
+
+        let default_device = unsafe {
+            enumerator
+                .GetDefaultAudioEndpoint(eRender, eMultimedia)
+                .unwrap()
+        };
+
+        let device_id = unsafe { default_device.GetId().unwrap() };
+
+        println!("enumerator: {:?}", enumerator);
+        println!("default device: {:?}", default_device);
+        println!("device id: {:?}", device_id);
+
+        let waveOutId = 0;
+        let cbEndpointId: usize = 0;
+        let cWaveOutDevices = unsafe { waveOutGetNumDevs() };
+
+        for device_idx in 0..cWaveOutDevices {
+            let result = unsafe {
+                waveOutMessage(
+                    HWAVEOUT(device_idx.try_into().unwrap()),
+                    DRV_QUERYFUNCTIONINSTANCEIDSIZE,
+                    cbEndpointId,
+                    0,
+                )
+            };
+
+            println!("result: {:?}", result);
+        }
+
+        let mut supported_formats = Vec::with_capacity(0);
+        Ok(supported_formats.into_iter())
+    }
+
     // There is no way to query the list of all formats that are supported by the
     // audio processor, so instead we just trial some commonly supported formats.
     //
@@ -555,7 +610,7 @@ impl Device {
         &self,
     ) -> Result<SupportedOutputConfigs, SupportedStreamConfigsError> {
         if self.data_flow() == eRender {
-            self.supported_formats()
+            self.supported_formats_ks()
         // If it's an input device, assume no output formats.
         } else {
             Ok(vec![].into_iter())
